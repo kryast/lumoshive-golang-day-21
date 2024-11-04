@@ -10,18 +10,14 @@ import (
 )
 
 func UpdateTaskStatusHandler(w http.ResponseWriter, r *http.Request) {
-	var request struct {
-		ID int `json:"id"`
-	}
 
-	// Decode JSON body
-	err := json.NewDecoder(r.Body).Decode(&request)
+	var task model.Task
+	err := json.NewDecoder(r.Body).Decode(&task)
 	if err != nil {
 		http.Error(w, "Invalid input", http.StatusBadRequest)
 		return
 	}
 
-	// Initialize database connection
 	db, err := database.InitDB()
 	if err != nil {
 		http.Error(w, "Database connection error", http.StatusInternalServerError)
@@ -29,22 +25,19 @@ func UpdateTaskStatusHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 
-	// Create task repository and service
 	repo := repository.NewTaskRepository(db)
 	taskService := service.NewTaskService(repo)
 
-	// Call the service to update the task status
-	task, err := taskService.UpdateTaskById(request.ID)
+	tasks, err := taskService.UpdateTaskById(task.ID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	// Success response
 	response := model.Response{
 		StatusCode: http.StatusOK,
 		Message:    "Task status updated successfully",
-		Data:       task,
+		Data:       tasks,
 	}
 	json.NewEncoder(w).Encode(response)
 }
