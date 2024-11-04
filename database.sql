@@ -7,5 +7,6 @@ CREATE TABLE users (
 
 CREATE TABLE tasks (
     ID SERIAL PRIMARY KEY,
-    description VARCHAR(256)
+    description VARCHAR(256),
+    status VARCHAR(100)
 );
