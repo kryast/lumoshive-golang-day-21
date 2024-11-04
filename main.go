@@ -22,6 +22,9 @@ func main() {
 	serverMux.HandleFunc("POST /create", handler.CreateUserHandler)
 	serverMux.HandleFunc("POST /login", handler.UserLoginHandler)
 	serverMux.HandleFunc("POST /create-task", handler.CreateTaskHandler)
+	serverMux.HandleFunc("POST /update-task", handler.UpdateTaskStatusHandler)
+
+	serverMux.HandleFunc("GET /read-task", handler.GetAllTasksHandler)
 
 	fmt.Println("Server started on port 8080")
 	http.ListenAndServe(":8080", serverMux)

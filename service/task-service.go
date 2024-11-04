@@ -33,3 +33,31 @@ func (ts *TaskService) InputDataTask(description string) error {
 
 	return nil
 }
+
+func (ts *TaskService) GetAllDataTask() ([]model.Task, error) {
+
+	tasks, err := ts.RepoTask.GetAll()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if tasks == nil || len(*tasks) == 0 {
+		fmt.Println("No tasks found")
+		return nil, err
+	}
+
+	return *tasks, nil
+
+}
+
+func (ts *TaskService) UpdateTaskById(id int) (*model.Task, error) {
+
+	task, err := ts.RepoTask.UpdateStatusTask(id)
+
+	if err != nil {
+		return nil, err
+
+	}
+	return task, nil
+}
