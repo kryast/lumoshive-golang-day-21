@@ -26,3 +26,13 @@ func (r *AdminRepositoryDB) GetAdminLogin(admin model.Admin) (*model.Admin, erro
 
 	return &adminResponse, nil
 }
+
+func (r *AdminRepositoryDB) GetID(id int) (*model.Admin, error) {
+	var admin model.Admin
+	query := "SELECT id, name, username, password FROM admin WHERE id = $1 "
+	err := r.DB.QueryRow(query, id).Scan(&admin.ID, &admin.Name, &admin.Username, &admin.Password)
+	if err != nil {
+		return nil, err
+	}
+	return &admin, nil
+}

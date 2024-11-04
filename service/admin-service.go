@@ -13,9 +13,9 @@ func NewAdminService(repo repository.AdminRepositoryDB) *AdminService {
 	return &AdminService{RepoAdmin: repo}
 }
 
-func (cs *AdminService) LoginService(user model.Admin) (*model.Response, error) {
+func (as *AdminService) LoginService(user model.Admin) (*model.Response, error) {
 
-	admins, err := cs.RepoAdmin.GetAdminLogin(user)
+	admins, err := as.RepoAdmin.GetAdminLogin(user)
 
 	if err != nil {
 		return nil, err
@@ -26,4 +26,15 @@ func (cs *AdminService) LoginService(user model.Admin) (*model.Response, error) 
 		Data:       admins,
 	}
 	return &response, nil
+}
+
+func (as *AdminService) GetAdminByID(id int) (*model.Admin, error) {
+
+	admin, err := as.RepoAdmin.GetID(id)
+
+	if err != nil {
+		return nil, err
+
+	}
+	return admin, nil
 }
