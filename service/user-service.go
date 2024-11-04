@@ -41,3 +41,18 @@ func (us *UserService) InputDataUser(name string, email string, password string)
 
 	return nil
 }
+
+func (us *UserService) UserLoginService(user model.User) (*model.Response, error) {
+
+	users, err := us.RepoUser.GetUserLogin(user)
+
+	if err != nil {
+		return nil, err
+	}
+	response := model.Response{
+		StatusCode: 200,
+		Message:    "login success",
+		Data:       users,
+	}
+	return &response, nil
+}
